@@ -75,16 +75,23 @@ class RiscvInstructionTraceCsv(object):
 
     # TODO: Convert pseudo instruction to regular instruction
 
-    def write_trace_entry(self, entry):
+    def write_trace_entry(self, entry, as_comment=False):
         """Write a new trace entry to CSV"""
-        self.csv_writer.writerow({'instr_str': entry.instr_str,
+        d = {'instr_str': entry.instr_str,
                                   'gpr'      : ";".join(entry.gpr),
                                   'csr'      : ";".join(entry.csr),
                                   'operand'  : entry.operand,
                                   'pc'       : entry.pc,
                                   'binary'   : entry.binary,
                                   'instr'    : entry.instr,
-                                  'mode'     : entry.mode})
+                                  'mode'     : entry.mode}
+        if not as_comment:
+            self.csv_writer.writerow(d)
+        else:
+            lst = self.csv_writer._dict_to_list(d)
+            s = f"# {','.join(lst)}\n"
+            self.csv_fd.write(s)
+        
 
 
 def get_imm_hex_val(imm):

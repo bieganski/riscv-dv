@@ -21,10 +21,10 @@
 parameter int XLEN = 32;
 
 // Parameter for SATP mode, set to BARE if address translation is not supported
-parameter satp_mode_t SATP_MODE = SV32;
+parameter satp_mode_t SATP_MODE = BARE;
 
 // Supported Privileged mode
-privileged_mode_t supported_privileged_mode[] = {MACHINE_MODE, USER_MODE};
+privileged_mode_t supported_privileged_mode[] = {MACHINE_MODE};
 
 // Unsupported instructions
 riscv_instr_name_t unsupported_instr[];
@@ -33,7 +33,7 @@ riscv_instr_name_t unsupported_instr[];
 riscv_instr_group_t supported_isa[$] = {RV32I};
 
 // Interrupt mode support
-mtvec_mode_t supported_interrupt_mode[$] = {DIRECT};
+mtvec_mode_t supported_interrupt_mode[$] = {DIRECT, VECTORED};
 
 // The number of interrupt vectors to be generated, only used if VECTORED interrupt mode is
 // supported
@@ -137,6 +137,7 @@ exception_cause_t implemented_exception[] = {
 `else
 const exception_cause_t implemented_exception[] = {
 `endif
+    INSTRUCTION_ADDRESS_MISALIGNED,
     INSTRUCTION_ACCESS_FAULT,
     ILLEGAL_INSTRUCTION,
     BREAKPOINT,

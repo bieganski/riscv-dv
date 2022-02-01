@@ -35,7 +35,7 @@
 - test: riscv_u_mode_rand_test
   description: >
     Random previliged mode test
-  iterations: 2
+  iterations: 1
   gen_test: riscv_instr_base_test
   gen_opts: >
     +instr_cnt=10000
