@@ -22,7 +22,8 @@ elf_path=$asm_dirname/${test_name}_0.o
 spike_log_path=$out_dirname/spike_sim/$test_name.0.log
 
 source env.sh
-python3 run.py  --target $target --test $test_name --simulator questa --verbose
+# use the same seed as in mtkcpu
+python3 run.py --seed 773733898  --target $target --test $test_name --simulator questa --verbose
 file $elf_path
 file $spike_log_path
 
@@ -35,3 +36,5 @@ riscv-none-embed-objdump -d $elf_path   > objdump.$test_name.txt
 
 
 python3 -c "import beepy; beepy.beep()"
+
+grep -v core $out_dirname/spike_sim/$test_name.0.log
